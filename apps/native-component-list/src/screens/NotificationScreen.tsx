@@ -74,10 +74,10 @@ export default class NotificationScreen extends React.Component<
 
     if (this.props.registerListenersOnMount) {
       this._onReceivedListener = Notifications.addNotificationReceivedListener(
-        this._handelReceivedNotification
+        this._handleReceivedNotification
       );
       this._onResponseReceivedListener = Notifications.addNotificationResponseReceivedListener(
-        this._handelNotificationResponseReceived
+        this._handleNotificationResponseReceived
       );
     }
   }
@@ -227,13 +227,13 @@ export default class NotificationScreen extends React.Component<
     );
   }
 
-  _handelReceivedNotification = (notification: Notifications.Notification) => {
+  _handleReceivedNotification = (notification: Notifications.Notification) => {
     this.setState({
       lastNotifications: notification,
     });
   };
 
-  _handelNotificationResponseReceived = (
+  _handleNotificationResponseReceived = (
     notificationResponse: Notifications.NotificationResponse
   ) => {
     console.log({ notificationResponse });

@@ -17,14 +17,12 @@ import expo.modules.notifications.notifications.SoundResolver
 import expo.modules.notifications.notifications.enums.NotificationPriority
 import expo.modules.notifications.notifications.interfaces.INotificationContent
 import expo.modules.notifications.notifications.model.NotificationAction
-import expo.modules.notifications.notifications.model.NotificationCategory
 import expo.modules.notifications.notifications.model.NotificationRequest
 import expo.modules.notifications.notifications.model.NotificationResponse
 import expo.modules.notifications.notifications.model.TextInputNotificationAction
 import expo.modules.notifications.service.NotificationsService
 import expo.modules.notifications.service.NotificationsService.Companion.createNotificationResponseIntent
 import expo.modules.notifications.service.delegates.SharedPreferencesNotificationCategoriesStore
-import java.io.IOException
 import kotlin.math.max
 import kotlin.math.min
 

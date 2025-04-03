@@ -11,5 +11,5 @@ export const NotificationScreen = notificationScreen(() =>
 ) as any;
 
 export default function Page() {
-  return <NotificationScreen registerListenersOnMount={false} />;
+  return <NotificationScreen registerListenersOnMount />;
 }
