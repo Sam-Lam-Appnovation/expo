@@ -330,18 +330,14 @@ class VideoModule : Module() {
         }
 
       Function("replace") { ref: VideoPlayer, source: Either<Uri, VideoSource>? ->
-        val videoSource = source?.let {
-          if (it.`is`(VideoSource::class)) {
-            it.get(VideoSource::class)
-          } else {
-            VideoSource(it.get(Uri::class))
-          }
-        }
+        replaceImpl(ref, source)
+      }
 
-        appContext.mainQueue.launch {
-          ref.uncommittedSource = videoSource
-          ref.prepare()
-        }
+      // ExoPlayer automatically offloads loading of the asset onto a different thread so we can keep the same
+      // implementation until `replace` is deprecated and removed.
+      // TODO: @behenate see if we can further reduce load on the main thread
+      AsyncFunction("replaceAsync") { ref: VideoPlayer, source: Either<Uri, VideoSource>? ->
+        replaceImpl(ref, source)
       }
 
       Function("seekBy") { ref: VideoPlayer, seekTime: Double ->
@@ -384,6 +380,23 @@ class VideoModule : Module() {
 
     OnActivityEntersBackground {
       VideoManager.onAppBackgrounded()
+    }
+  }
+  private fun replaceImpl(
+    ref: VideoPlayer,
+    source: Either<Uri, VideoSource>?
+  ) {
+    val videoSource = source?.let {
+      if (it.`is`(VideoSource::class)) {
+        it.get(VideoSource::class)
+      } else {
+        VideoSource(it.get(Uri::class))
+      }
+    }
+
+    appContext.mainQueue.launch {
+      ref.uncommittedSource = videoSource
+      ref.prepare()
     }
   }
 }

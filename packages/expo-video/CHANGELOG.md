@@ -6,9 +6,15 @@
 
 ### 🎉 New features
 
+- Introduce `replaceAsync` method, which doesn't load the asset on the main thread. ([#36308](https://github.com/expo/expo/pull/36308) by [@behenate](https://github.com/behenate))
+
 ### 🐛 Bug fixes
 
+- [iOS] Fix main thread being locked while the VideoPlayer is replacing or being created with a source. ([#36308](https://github.com/expo/expo/pull/36308) by [@behenate](https://github.com/behenate))
+
 ### 💡 Others
+
+- Add warning about the `replace` being deprecated in the future. ([#36308](https://github.com/expo/expo/pull/36308) by [@behenate](https://github.com/behenate))
 
 ## 2.1.3 — 2025-04-21
 
