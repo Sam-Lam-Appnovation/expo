@@ -457,7 +457,7 @@ open class NotificationsService : BroadcastReceiver() {
       // [notification trampolines](https://developer.android.com/about/versions/12/behavior-changes-12#identify-notification-trampolines)
       // are not allowed. If the notification wants to open foreground app,
       // we should use the dedicated Activity pendingIntent.
-      if (action.opensAppToForeground() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+      if (action.opensAppToForeground && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         return ExpoHandlingDelegate.createPendingIntentForOpeningApp(context, intent)
       }
 

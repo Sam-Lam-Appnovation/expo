@@ -41,14 +41,11 @@ open class ExpoNotificationBuilder(
   ) {
     try {
       val category = store.getNotificationCategory(categoryIdentifier) ?: run {
-        throw InvalidArgumentException("The category does not exist, did you call setNotificationCategoryAsync()?")
+        throw InvalidArgumentException("The category \"$categoryIdentifier\" does not exist, did you call setNotificationCategoryAsync()?")
       }
       for (action in category.actions) {
-        if (action is TextInputNotificationAction) {
-          builder.addAction(buildTextInputAction(action))
-        } else {
-          builder.addAction(buildButtonAction(action))
-        }
+        val intent = createNotificationResponseIntent(context, notification, action)
+        builder.addAction(action.toNativeAction(intent, icon))
       }
     } catch (e: Exception) {
       Log.e(
@@ -60,21 +57,6 @@ open class ExpoNotificationBuilder(
         )
       )
     }
-  }
-
-  protected fun buildButtonAction(action: NotificationAction): NotificationCompat.Action {
-    val intent = createNotificationResponseIntent(context, notification, action)
-    return NotificationCompat.Action.Builder(icon, action.title, intent).build()
-  }
-
-  protected fun buildTextInputAction(action: TextInputNotificationAction): NotificationCompat.Action {
-    val intent = createNotificationResponseIntent(context, notification, action)
-    val remoteInput = RemoteInput.Builder(NotificationsService.USER_TEXT_RESPONSE_KEY)
-      .setLabel(action.placeholder)
-      .build()
-
-    return NotificationCompat.Action.Builder(icon, action.title, intent)
-      .addRemoteInput(remoteInput).build()
   }
 
   override suspend fun build(): Notification {

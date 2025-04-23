@@ -141,9 +141,9 @@ class ExpoHandlingDelegate(protected val context: Context) : HandlingDelegate {
     if (!isAppInForeground()) {
       // do not run in foreground for better alignment with iOS
       // iOS doesn't run background tasks for notification responses at all
-      runTaskManagerTasks(context.applicationContext, NotificationSerializer.toBundle(notificationResponse))
+      runTaskManagerTasks(context.applicationContext, notificationResponse.toBundle())
     }
-    if (notificationResponse.action.opensAppToForeground()) {
+    if (notificationResponse.action.opensAppToForeground) {
       openAppToForeground(context, notificationResponse)
     }
     // NOTE the listeners are not set up when the app is killed
